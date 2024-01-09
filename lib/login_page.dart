@@ -49,9 +49,9 @@ class _LoginPageState extends State<LoginPage> {
 
   Future login(email, password) async {
     LoginResponseModel? loginResponseModel;
-    Map<String, String> body = {"email": email, "password": password};
+    Map<String, String> body = {"UserEmail": email, "UserPassword": password};
     var response = await myHttp.post(
-        Uri.parse('https://punyawa.com/presensi/public/api/login'),
+        Uri.parse('http://103.169.21.106:8887/api/auth/loginEss'),
         body: body);
     if (response.statusCode == 401) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
       loginResponseModel =
           LoginResponseModel.fromJson(json.decode(response.body));
       debugPrint('HASIL ${response.body}');
-      saveUser(loginResponseModel.data.token, loginResponseModel.data.name);
+      saveUser(loginResponseModel.data.token, loginResponseModel.data.userName);
     }
   }
 

@@ -11,70 +11,96 @@ String loginResponseModelToJson(LoginResponseModel data) =>
     json.encode(data.toJson());
 
 class LoginResponseModel {
-  LoginResponseModel({
-    required this.success,
-    required this.message,
-    required this.data,
-  });
+  final bool error;
+  final Data data;
+  final String errMsg;
+  final List<dynamic> errParam;
 
-  bool success;
-  String message;
-  Data data;
+  LoginResponseModel({
+    required this.error,
+    required this.data,
+    required this.errMsg,
+    required this.errParam
+  });
 
   factory LoginResponseModel.fromJson(Map<String, dynamic> json) =>
       LoginResponseModel(
-        success: json["success"],
-        message: json["message"],
-        data: Data.fromJson(json["data"]),
+        error: json["Error"],
+        data: Data.fromJson(json["Data"]),
+        errMsg: json["ErrMsg"],
+        errParam: List<dynamic>.from(json["ErrParam"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
-        "success": success,
-        "message": message,
-        "data": data.toJson(),
+        "Error": error,
+        "Data": data.toJson(),
+        "ErrMsg": errMsg,
+        "ErrParam": List<dynamic>.from(errParam.map((x) => x)),
       };
 }
 
 class Data {
+  final String userID;
+    final String userEmail;
+    final String userName;
+    final String userPassword;
+    final String userFingerID;
+    final String token;
+    final String noKtp;
+    final String location;
+    final String gender;
+    final String job;
+    final String dept;
+    final String fungsi;
+    final String fotoProfile;
+
   Data({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.emailVerifiedAt,
-    required this.createdAt,
-    required this.updatedAt,
+    required this.userID,
+    required this.userEmail,
+    required this.userName,
+    required this.userPassword,
+    required this.userFingerID,
     required this.token,
-    required this.tokenType,
+    required this.noKtp,
+    required this.location,
+    required this.gender,
+    required this.job,
+    required this.dept,
+    required this.fungsi,
+    required this.fotoProfile,
   });
 
-  int id;
-  String name;
-  String email;
-  dynamic emailVerifiedAt;
-  DateTime createdAt;
-  DateTime updatedAt;
-  String token;
-  String tokenType;
+  
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        id: json["id"],
-        name: json["name"],
-        email: json["email"],
-        emailVerifiedAt: json["email_verified_at"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        token: json["token"],
-        tokenType: json["token_type"],
+        userID: json["UserID"],
+        userEmail: json["UserEmail"],
+        userName: json["UserName"],
+        userPassword: json["UserPassword"],
+        userFingerID: json["UserFingerID"],
+        token: json["Token"],
+        noKtp: json["NoKtp"],
+        location: json["Location"],
+        gender: json["Gender"],
+        job: json["Job"],
+        dept: json["Dept"],
+        fungsi: json["Fungsi"],
+        fotoProfile: json["FotoProfile"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "email": email,
-        "email_verified_at": emailVerifiedAt,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-        "token": token,
-        "token_type": tokenType,
+        "UserID": userID,
+        "UserEmail": userEmail,
+        "UserName": userName,
+        "UserPassword": userPassword,
+        "UserFingerID": userFingerID,
+        "Token": token,
+        "NoKtp": noKtp,
+        "Location": location,
+        "Gender": gender,
+        "Job": job,
+        "Dept": dept,
+        "Fungsi": fungsi,
+        "FotoProfile": fotoProfile,
       };
 }

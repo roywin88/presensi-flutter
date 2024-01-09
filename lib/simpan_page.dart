@@ -1,7 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:location/location.dart';
 import 'package:presensi/models/save_presensi_response.dart';
@@ -72,8 +71,8 @@ class _SimpanPageState extends State<SimpanPage> {
         SavePresensiResponseModel.fromJson(json.decode(response.body));
 
     if (savePresensiResponseModel.success) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Sukses simpan Presensi')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Sukses simpan Presensi')));
       Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context)
@@ -92,7 +91,8 @@ class _SimpanPageState extends State<SimpanPage> {
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.hasData) {
               final LocationData currentLocation = snapshot.data;
-              debugPrint('KODING : ${currentLocation.latitude.toString()} | ${currentLocation.longitude.toString()}');
+              debugPrint(
+                  'KODING : ${currentLocation.latitude.toString()} | ${currentLocation.longitude.toString()}');
               return SafeArea(
                   child: Column(
                 children: [
