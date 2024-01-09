@@ -32,7 +32,7 @@ class _SimpanPageState extends State<SimpanPage> {
     bool serviceEnable;
     PermissionStatus permissionGranted;
 
-    Location location = new Location();
+    Location location = Location();
 
     serviceEnable = await location.serviceEnabled();
 
@@ -61,7 +61,7 @@ class _SimpanPageState extends State<SimpanPage> {
       "longitude": longitude.toString()
     };
 
-    Map<String, String> headers = {'Authorization': 'Bearer ' + await _token};
+    Map<String, String> headers = {'Authorization': 'Bearer ${await _token}'};
 
     var response = await myHttp.post(
         Uri.parse("https://punyawa.com/presensi/public/api/save-presensi"),
@@ -92,10 +92,7 @@ class _SimpanPageState extends State<SimpanPage> {
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.hasData) {
               final LocationData currentLocation = snapshot.data;
-              debugPrint("KODING : " +
-                  currentLocation.latitude.toString() +
-                  " | " +
-                  currentLocation.longitude.toString());
+              debugPrint('KODING : ${currentLocation.latitude.toString()} | ${currentLocation.longitude.toString()}');
               return SafeArea(
                   child: Column(
                 children: [

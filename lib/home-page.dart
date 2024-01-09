@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:presensi/models/home-response.dart';
 import 'package:presensi/simpan-page.dart';
@@ -22,7 +21,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    // todo: implement initState
     super.initState();
     _token = _prefs.then((SharedPreferences prefs) {
       return prefs.getString("token") ?? "";

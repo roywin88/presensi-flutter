@@ -54,19 +54,19 @@ class _LoginPageState extends State<LoginPage> {
         Uri.parse('https://punyawa.com/presensi/public/api/login'),
         body: body);
     if (response.statusCode == 401) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("Email atau password salah")));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Email atau password salah")));
     } else {
       loginResponseModel =
           LoginResponseModel.fromJson(json.decode(response.body));
-      debugPrint('HASIL ' + response.body);
+      debugPrint('HASIL ${response.body}');
       saveUser(loginResponseModel.data.token, loginResponseModel.data.name);
     }
   }
 
   Future saveUser(token, name) async {
     try {
-      debugPrint("LEWAT SINI " + token + " | " + name);
+      debugPrint('LEWAT SINI $token | $name');
       final SharedPreferences pref = await _prefs;
       pref.setString("name", name);
       pref.setString("token", token);
@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
         setState(() {});
       });
     } catch (err) {
-      debugPrint('ERROR :' + err.toString());
+      debugPrint('ERROR :${err.toString()}');
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(err.toString())));
     }
