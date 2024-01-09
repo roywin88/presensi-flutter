@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:presensi/home-page.dart';
+import 'package:presensi/home_page.dart';
 import 'package:http/http.dart' as myHttp;
-import 'package:presensi/models/login-response.dart';
+import 'package:presensi/models/login_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -21,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    // todo: implement initState
     super.initState();
     _token = _prefs.then((SharedPreferences prefs) {
       return prefs.getString("token") ?? "";

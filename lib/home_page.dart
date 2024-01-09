@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:presensi/models/home-response.dart';
-import 'package:presensi/simpan-page.dart';
+import 'package:presensi/models/home_response.dart';
+import 'package:presensi/simpan_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as myHttp;
 
@@ -34,20 +34,20 @@ class _HomePageState extends State<HomePage> {
 
   Future getData() async {
     final Map<String, String> headres = {
-      'Authorization': 'Bearer ' + await _token
+      'Authorization': 'Bearer ${await _token}'
     };
     var response = await myHttp.get(
         Uri.parse('https://punyawa.com/presensi/public/api/get-presensi'),
         headers: headres);
     homeResponseModel = HomeResponseModel.fromJson(json.decode(response.body));
     riwayat.clear();
-    homeResponseModel!.data.forEach((element) {
+    for (var element in homeResponseModel!.data) {
       if (element.isHariIni) {
         hariIni = element;
       } else {
         riwayat.add(element);
       }
-    });
+    }
   }
 
   @override
