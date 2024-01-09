@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
           future: getData(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else {
               return SafeArea(
                   child: Padding(
@@ -72,18 +72,18 @@ class _HomePageState extends State<HomePage> {
                             AsyncSnapshot<String> snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return CircularProgressIndicator();
+                            return const CircularProgressIndicator();
                           } else {
                             if (snapshot.hasData) {
-                              print(snapshot.data);
+                              debugPrint(snapshot.data);
                               return Text(snapshot.data!,
-                                  style: TextStyle(fontSize: 18));
+                                  style: const TextStyle(fontSize: 18));
                             } else {
-                              return Text("-", style: TextStyle(fontSize: 18));
+                              return const Text("-", style: TextStyle(fontSize: 18));
                             }
                           }
                         }),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Container(
@@ -94,8 +94,8 @@ class _HomePageState extends State<HomePage> {
                         child: Column(children: [
                           Text(hariIni?.tanggal ?? '-',
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 16)),
-                          SizedBox(
+                                  const TextStyle(color: Colors.white, fontSize: 16)),
+                          const SizedBox(
                             height: 30,
                           ),
                           Row(
@@ -104,9 +104,9 @@ class _HomePageState extends State<HomePage> {
                               Column(
                                 children: [
                                   Text(hariIni?.masuk ?? '-',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.white, fontSize: 24)),
-                                  Text("Masuk",
+                                  const Text("Masuk",
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 16))
                                 ],
@@ -114,9 +114,9 @@ class _HomePageState extends State<HomePage> {
                               Column(
                                 children: [
                                   Text(hariIni?.pulang ?? '-',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.white, fontSize: 24)),
-                                  Text("Pulang",
+                                  const Text("Pulang",
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 16))
                                 ],
@@ -126,8 +126,8 @@ class _HomePageState extends State<HomePage> {
                         ]),
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Text("Riwayat Presensi"),
+                    const SizedBox(height: 20),
+                    const Text("Riwayat Presensi"),
                     Expanded(
                       child: ListView.builder(
                         itemCount: riwayat.length,
@@ -138,16 +138,16 @@ class _HomePageState extends State<HomePage> {
                               Column(
                                 children: [
                                   Text(riwayat[index].masuk,
-                                      style: TextStyle(fontSize: 18)),
-                                  Text("Masuk", style: TextStyle(fontSize: 14))
+                                      style: const TextStyle(fontSize: 18)),
+                                  const Text("Masuk", style: TextStyle(fontSize: 14))
                                 ],
                               ),
-                              SizedBox(width: 20),
+                              const SizedBox(width: 20),
                               Column(
                                 children: [
                                   Text(riwayat[index].pulang,
-                                      style: TextStyle(fontSize: 18)),
-                                  Text("Pulang", style: TextStyle(fontSize: 14))
+                                      style: const TextStyle(fontSize: 18)),
+                                  const Text("Pulang", style: TextStyle(fontSize: 14))
                                 ],
                               ),
                             ]),
@@ -163,12 +163,12 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => SimpanPage()))
+              .push(MaterialPageRoute(builder: (context) => const SimpanPage()))
               .then((value) {
             setState(() {});
           });
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

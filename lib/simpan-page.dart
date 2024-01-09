@@ -73,11 +73,11 @@ class _SimpanPageState extends State<SimpanPage> {
 
     if (savePresensiResponseModel.success) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Sukses simpan Presensi')));
+          .showSnackBar(const SnackBar(content: Text('Sukses simpan Presensi')));
       Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Gagal simpan Presensi')));
+          .showSnackBar(const SnackBar(content: Text('Gagal simpan Presensi')));
     }
   }
 
@@ -85,21 +85,21 @@ class _SimpanPageState extends State<SimpanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Presensi"),
+        title: const Text("Presensi"),
       ),
       body: FutureBuilder<LocationData?>(
           future: _currenctLocation(),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.hasData) {
               final LocationData currentLocation = snapshot.data;
-              print("KODING : " +
+              debugPrint("KODING : " +
                   currentLocation.latitude.toString() +
                   " | " +
                   currentLocation.longitude.toString());
               return SafeArea(
                   child: Column(
                 children: [
-                  Container(
+                  SizedBox(
                     height: 300,
                     child: SfMaps(
                       layers: [
@@ -115,7 +115,7 @@ class _SimpanPageState extends State<SimpanPage> {
                             return MapMarker(
                               latitude: currentLocation.latitude!,
                               longitude: currentLocation.longitude!,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.location_on,
                                 color: Colors.red,
                               ),
@@ -125,7 +125,7 @@ class _SimpanPageState extends State<SimpanPage> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   ElevatedButton(
@@ -133,11 +133,11 @@ class _SimpanPageState extends State<SimpanPage> {
                         savePresensi(currentLocation.latitude,
                             currentLocation.longitude);
                       },
-                      child: Text("Simpan Presensi"))
+                      child: const Text("Simpan Presensi"))
                 ],
               ));
             } else {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
