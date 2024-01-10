@@ -34,13 +34,15 @@ class _HomePageState extends State<HomePage> {
 
   Future getData() async {
     final Map<String, String> headres = {
-        'X-API-KEY': await _token,
-        // 'Content-Type': 'application/json'
+      'X-API-KEY': await _token,
+      'Accept': 'application/json'
     };
     var response = await http.get(
-        Uri.parse('http://103.169.21.106:8887/api/absensi/monthly?bulan=1&tahun=2024'),
+        Uri.parse(
+            'http://103.169.21.106:8887/api/absensi/monthly?bulan=1&tahun=2024'),
         headers: headres);
     homeResponseModel = HomeResponseModel.fromJson(json.decode(response.body));
+    debugPrint(response.body);
     debugPrint('HARI INI ${homeResponseModel!.data}');
     riwayat.clear();
     for (var element in homeResponseModel!.data) {
@@ -76,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                             return const CircularProgressIndicator();
                           } else {
                             if (snapshot.hasData) {
-                              // debugPrint(snapshot.data);
+                              debugPrint(snapshot.data);
                               return Text(snapshot.data!,
                                   style: const TextStyle(fontSize: 18));
                             } else {
