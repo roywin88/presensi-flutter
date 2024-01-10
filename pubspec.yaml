@@ -30,10 +30,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
-  http: ^1.1.2
+  http: ^0.13.3
   location: ^5.0.3
   shared_preferences: ^2.0.15
-  syncfusion_flutter_maps: ^24.1.45
+  syncfusion_flutter_maps: ^21.2.10
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to

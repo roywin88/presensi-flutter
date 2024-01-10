@@ -100,10 +100,10 @@ packages:
     dependency: "direct main"
     description:
       name: http
-      sha256: d4872660c46d929f6b8a9ef4e7a7eff7e49bbf0c4ec3f385ee32df5119175139
+      sha256: "6aa2946395183537c8b880962d935877325d6a09a2867c3970c05c0fed6ac482"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.2"
+    version: "0.13.5"
   http_parser:
     dependency: transitive
     description:
@@ -321,18 +321,18 @@ packages:
     dependency: transitive
     description:
       name: syncfusion_flutter_core
-      sha256: "4afb43254d436e1d41a2ee2761908650ce3ad3453f5bebd283dfe3185d5026a2"
+      sha256: "8db8f55c77f56968681447d3837c10f27a9e861e238a898fda116c7531def979"
       url: "https://pub.dev"
     source: hosted
-    version: "24.1.45"
+    version: "21.2.10"
   syncfusion_flutter_maps:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_maps
-      sha256: c03146c098af98b86004c9f5f8e0c53adfceba4b4ddc9304b2bb53a2a32da5e2
+      sha256: "0841f8d557dc2dfc4a77872ed351bc704dfaa6cf12689500b37b2e778bc6de58"
       url: "https://pub.dev"
     source: hosted
-    version: "24.1.45"
+    version: "21.2.10"
   term_glyph:
     dependency: transitive
     description:
