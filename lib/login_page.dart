@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:presensi/home_page.dart';
-import 'package:http/http.dart' as myHttp;
+import 'package:http/http.dart' as http;
 import 'package:presensi/models/login_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -17,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  late Future<String> _name, _token;
+  late Future<String> _userName, _token;
 
   @override
   void initState() {
@@ -27,15 +27,15 @@ class _LoginPageState extends State<LoginPage> {
       return prefs.getString("token") ?? "";
     });
 
-    _name = _prefs.then((SharedPreferences prefs) {
-      return prefs.getString("name") ?? "";
+    _userName = _prefs.then((SharedPreferences prefs) {
+      return prefs.getString("userName") ?? "";
     });
-    checkToken(_token, _name);
+    checkToken(_token, _userName);
   }
 
-  checkToken(token, name) async {
+  checkToken(token, userName) async {
     String tokenStr = await token;
-    String nameStr = await name;
+    String nameStr = await userName;
     if (tokenStr != "" && nameStr != "") {
       Future.delayed(const Duration(seconds: 1), () async {
         Navigator.of(context)
@@ -49,8 +49,8 @@ class _LoginPageState extends State<LoginPage> {
 
   Future login(email, password) async {
     LoginResponseModel? loginResponseModel;
-    Map<String, String> body = {"UserEmail": email, "UserPassword": password};
-    var response = await myHttp.post(
+    Map<String, String> body = {"userEmail": email, "password": password};
+    var response = await http.post(
         Uri.parse('http://103.169.21.106:8887/api/auth/loginEss'),
         body: body);
     if (response.statusCode == 401) {
@@ -64,11 +64,11 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future saveUser(token, name) async {
+  Future saveUser(token, userName) async {
     try {
-      debugPrint('LEWAT SINI $token | $name');
+      debugPrint('LEWAT SINI $token | $userName');
       final SharedPreferences pref = await _prefs;
-      pref.setString("name", name);
+      pref.setString("userName", userName);
       pref.setString("token", token);
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => const HomePage()))

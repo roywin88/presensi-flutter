@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:presensi/models/home_response.dart';
 import 'package:presensi/simpan_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as myHttp;
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  late Future<String> _name, _token;
+  late Future<String> _userName, _token;
   HomeResponseModel? homeResponseModel;
   Datum? hariIni;
   List<Datum> riwayat = [];
@@ -27,22 +27,24 @@ class _HomePageState extends State<HomePage> {
       return prefs.getString("token") ?? "";
     });
 
-    _name = _prefs.then((SharedPreferences prefs) {
-      return prefs.getString("name") ?? "";
+    _userName = _prefs.then((SharedPreferences prefs) {
+      return prefs.getString("userName") ?? "";
     });
   }
 
   Future getData() async {
     final Map<String, String> headres = {
-      'Authorization': 'Bearer ${await _token}'
+        'X-API-KEY': await _token,
+        // 'Content-Type': 'application/json'
     };
-    var response = await myHttp.get(
-        Uri.parse('http://103.169.21.106:8887/api/absensi/monthly'),
+    var response = await http.get(
+        Uri.parse('http://103.169.21.106:8887/api/absensi/monthly?bulan=1&tahun=2024'),
         headers: headres);
     homeResponseModel = HomeResponseModel.fromJson(json.decode(response.body));
+    debugPrint('HARI INI ${homeResponseModel!.data}');
     riwayat.clear();
     for (var element in homeResponseModel!.data) {
-      if (element.isHariIni) {
+      if (element.attDate == DateTime.now().toString().substring(0, 10)) {
         hariIni = element;
       } else {
         riwayat.add(element);
@@ -66,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     FutureBuilder(
-                        future: _name,
+                        future: _userName,
                         builder: (BuildContext context,
                             AsyncSnapshot<String> snapshot) {
                           if (snapshot.connectionState ==
@@ -74,11 +76,12 @@ class _HomePageState extends State<HomePage> {
                             return const CircularProgressIndicator();
                           } else {
                             if (snapshot.hasData) {
-                              debugPrint(snapshot.data);
+                              // debugPrint(snapshot.data);
                               return Text(snapshot.data!,
                                   style: const TextStyle(fontSize: 18));
                             } else {
-                              return const Text("-", style: TextStyle(fontSize: 18));
+                              return const Text("-",
+                                  style: TextStyle(fontSize: 18));
                             }
                           }
                         }),
@@ -91,9 +94,9 @@ class _HomePageState extends State<HomePage> {
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Column(children: [
-                          Text(hariIni?.tanggal ?? '-',
-                              style:
-                                  const TextStyle(color: Colors.white, fontSize: 16)),
+                          Text(hariIni?.attDate ?? '-',
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 16)),
                           const SizedBox(
                             height: 30,
                           ),
@@ -102,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               Column(
                                 children: [
-                                  Text(hariIni?.masuk ?? '-',
+                                  Text(hariIni?.clockTime ?? '-',
                                       style: const TextStyle(
                                           color: Colors.white, fontSize: 24)),
                                   const Text("Masuk",
@@ -112,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                               Column(
                                 children: [
-                                  Text(hariIni?.pulang ?? '-',
+                                  Text(hariIni?.clockTimeOut ?? '-',
                                       style: const TextStyle(
                                           color: Colors.white, fontSize: 24)),
                                   const Text("Pulang",
@@ -132,21 +135,23 @@ class _HomePageState extends State<HomePage> {
                         itemCount: riwayat.length,
                         itemBuilder: (context, index) => Card(
                           child: ListTile(
-                            leading: Text(riwayat[index].tanggal),
+                            leading: Text(riwayat[index].attDate),
                             title: Row(children: [
                               Column(
                                 children: [
-                                  Text(riwayat[index].masuk,
+                                  Text(riwayat[index].clockTime,
                                       style: const TextStyle(fontSize: 18)),
-                                  const Text("Masuk", style: TextStyle(fontSize: 14))
+                                  const Text("Masuk",
+                                      style: TextStyle(fontSize: 14))
                                 ],
                               ),
                               const SizedBox(width: 20),
                               Column(
                                 children: [
-                                  Text(riwayat[index].pulang,
+                                  Text(riwayat[index].clockTime,
                                       style: const TextStyle(fontSize: 18)),
-                                  const Text("Pulang", style: TextStyle(fontSize: 14))
+                                  const Text("Pulang",
+                                      style: TextStyle(fontSize: 14))
                                 ],
                               ),
                             ]),

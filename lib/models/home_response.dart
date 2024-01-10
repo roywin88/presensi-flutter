@@ -1,88 +1,77 @@
-// To parse this JSON data, do
-//
-//     final homeResponseModel = homeResponseModelFromJson(jsonString);
-
 import 'dart:convert';
 
-HomeResponseModel homeResponseModelFromJson(String str) =>
-    HomeResponseModel.fromJson(json.decode(str));
+HomeResponseModel homeResponseModelFromJson(String str) => HomeResponseModel.fromJson(json.decode(str));
 
-String homeResponseModelToJson(HomeResponseModel data) =>
-    json.encode(data.toJson());
+String homeResponseModelToJson(HomeResponseModel data) => json.encode(data.toJson());
 
 class HomeResponseModel {
-  HomeResponseModel({
-    required this.success,
-    required this.data,
-    required this.message,
-  });
+    final bool error;
+    final List<Datum> data;
+    final String errMsg;
+    final List<dynamic> errParam;
 
-  bool success;
-  List<Datum> data;
-  String message;
+    HomeResponseModel({
+        required this.error,
+        required this.data,
+        required this.errMsg,
+        required this.errParam,
+    });
 
-  factory HomeResponseModel.fromJson(Map<String, dynamic> json) =>
-      HomeResponseModel(
-        success: json["success"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-        message: json["message"],
-      );
+    factory HomeResponseModel.fromJson(Map<String, dynamic> json) => HomeResponseModel(
+        error: json["Error"],
+        data: List<Datum>.from(json["Data"].map((x) => Datum.fromJson(x))),
+        errMsg: json["ErrMsg"],
+        errParam: List<dynamic>.from(json["ErrParam"].map((x) => x)),
+    );
 
-  Map<String, dynamic> toJson() => {
-        "success": success,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-        "message": message,
-      };
+    Map<String, dynamic> toJson() => {
+        "Error": error,
+        "Data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "ErrMsg": errMsg,
+        "ErrParam": List<dynamic>.from(errParam.map((x) => x)),
+    };
 }
 
 class Datum {
-  Datum({
-    required this.id,
-    required this.userId,
-    required this.latitude,
-    required this.longitude,
-    required this.tanggal,
-    required this.masuk,
-    required this.pulang,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.isHariIni,
-  });
+    final String attDate;
+    final String clockTime;
+    final String clockTimeOut;
+    final String status;
+    final String suhu;
+    final String satuan;
+    final String useMask;
+    final String workTime;
 
-  int id;
-  String userId;
-  String latitude;
-  String longitude;
-  String tanggal;
-  String masuk;
-  String pulang;
-  DateTime createdAt;
-  DateTime updatedAt;
-  bool isHariIni;
+    Datum({
+        required this.attDate,
+        required this.clockTime,
+        required this.clockTimeOut,
+        required this.status,
+        required this.suhu,
+        required this.satuan,
+        required this.useMask,
+        required this.workTime,
+    });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        id: json["id"],
-        userId: json["user_id"],
-        latitude: json["latitude"],
-        longitude: json["longitude"],
-        tanggal: json["tanggal"],
-        masuk: json["masuk"],
-        pulang: json["pulang"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        isHariIni: json["is_hari_ini"],
-      );
+    factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        attDate: json["AttDate"],
+        clockTime: json["ClockTime"],
+        clockTimeOut: json["ClockTimeOut"],
+        status: json["Status"],
+        suhu: json["Suhu"],
+        satuan: json["Satuan"],
+        useMask: json["UseMask"],
+        workTime: json["WorkTime"],
+    );
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "user_id": userId,
-        "latitude": latitude,
-        "longitude": longitude,
-        "tanggal": tanggal,
-        "masuk": masuk,
-        "pulang": pulang,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-        "is_hari_ini": isHariIni,
-      };
+    Map<String, dynamic> toJson() => {
+        "AttDate": attDate,
+        "ClockTime": clockTime,
+        "ClockTimeOut": clockTimeOut,
+        "Status": status,
+        "Suhu": suhu,
+        "Satuan": satuan,
+        "UseMask": useMask,
+        "WorkTime": workTime,
+    };
 }

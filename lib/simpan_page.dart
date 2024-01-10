@@ -6,10 +6,10 @@ import 'package:location/location.dart';
 import 'package:presensi/models/save_presensi_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
-import 'package:http/http.dart' as myHttp;
+import 'package:http/http.dart' as http;
 
 class SimpanPage extends StatefulWidget {
-  const SimpanPage({Key? key}) : super(key: key);
+  const SimpanPage({super.key});
 
   @override
   State<SimpanPage> createState() => _SimpanPageState();
@@ -62,7 +62,7 @@ class _SimpanPageState extends State<SimpanPage> {
 
     Map<String, String> headers = {'Authorization': 'Bearer ${await _token}'};
 
-    var response = await myHttp.post(
+    var response = await http.post(
         Uri.parse("https://punyawa.com/presensi/public/api/save-presensi"),
         body: body,
         headers: headers);
