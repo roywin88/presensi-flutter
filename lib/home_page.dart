@@ -34,16 +34,15 @@ class _HomePageState extends State<HomePage> {
 
   Future getData() async {
     const String apiUrl = "http://103.169.21.106:8887/api/absensi/monthly";
-    const String apiKey = "93F2778A-DD1B-440A-8825-76262D044A40";
+    // const String apiKey = "93F2778A-DD1B-440A-8825-76262D044A40";
     DateTime now = DateTime.now();
     int bulan = now.month;
     int tahun = now.year;
     String urlWithParams = "$apiUrl?bulan=$bulan&tahun=$tahun";
     final Map<String, String> headers = {
       "Content-Type": "application/json",
-      "Accept": "application/json",
-      // "Authorization": "Api-Key $apiKey",
-      "X-API-KEY": apiKey,
+      "X-API-KEY": await _token,
+      
     };
     var response = await http.get(Uri.parse(urlWithParams), headers: headers);
     homeResponseModel = HomeResponseModel.fromJson(json.decode(response.body));

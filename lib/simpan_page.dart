@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:location/location.dart';
@@ -55,22 +56,34 @@ class _SimpanPageState extends State<SimpanPage> {
 
   Future savePresensi(latitude, longitude) async {
     SavePresensiResponseModel savePresensiResponseModel;
+    // Mendapatkan tanggal saat ini
+    DateTime now = DateTime.now();
+    // Format tanggal dengan format 'dd/MM/yyyy'
+    String tgl = DateFormat('MM/dd/yyyy').format(now);
+    String jam = DateFormat('h:mm a').format(now);
     Map<String, String> body = {
-      "latitude": latitude.toString(),
-      "longitude": longitude.toString()
+      "wfh": "0",
+      "tgl": tgl,
+      "jam": jam,
+      "cGatewayIp": "192.168.30.238",
+      "cPublicIp": "",
+      "cLat": latitude.toString(),
+      "cLong": longitude.toString(),
+      "cAltitude": "26.0",
+      "cAccuracy": "112.168"
     };
 
-    Map<String, String> headers = {'Authorization': 'Bearer ${await _token}'};
-
+    Map<String, String> headers = {'AX-API-KEY': await _token};
+    
     var response = await http.post(
-        Uri.parse("https://punyawa.com/presensi/public/api/save-presensi"),
+        Uri.parse("http://103.169.21.106:8887/api/remoteClockIn"),
         body: body,
         headers: headers);
 
     savePresensiResponseModel =
         SavePresensiResponseModel.fromJson(json.decode(response.body));
 
-    if (savePresensiResponseModel.success) {
+    if (!savePresensiResponseModel.error) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Sukses simpan Presensi')));
       Navigator.pop(context);
