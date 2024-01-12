@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:presensi/models/home_response.dart';
 import 'package:presensi/simpan_page.dart';
@@ -14,7 +15,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  late Future<String> _userName, _token;
+  late Future<String> _userName, _token, _sessionCookie;
   HomeResponseModel? homeResponseModel;
   Datum? hariIni;
   List<Datum> riwayat = [];
@@ -30,6 +31,10 @@ class _HomePageState extends State<HomePage> {
     _userName = _prefs.then((SharedPreferences prefs) {
       return prefs.getString("userName") ?? "";
     });
+
+    _sessionCookie = _prefs.then((SharedPreferences prefs) {
+      return prefs.getString("sessionCookie") ?? "";
+    });
   }
 
   Future getData() async {
@@ -42,15 +47,14 @@ class _HomePageState extends State<HomePage> {
     final Map<String, String> headers = {
       "Content-Type": "application/json",
       "X-API-KEY": await _token,
-      
+      'cookie': await _sessionCookie,
     };
+
     var response = await http.get(Uri.parse(urlWithParams), headers: headers);
     homeResponseModel = HomeResponseModel.fromJson(json.decode(response.body));
-    debugPrint(response.body);
-    debugPrint('HARI INI ${homeResponseModel!.data}');
     riwayat.clear();
     for (var element in homeResponseModel!.data) {
-      if (element.attDate == DateTime.now().toString().substring(0, 10)) {
+      if (element.attDate == DateFormat('dd-MM-yyyy').format(now)) {
         hariIni = element;
       } else {
         riwayat.add(element);
@@ -82,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                             return const CircularProgressIndicator();
                           } else {
                             if (snapshot.hasData) {
-                              debugPrint(snapshot.data);
+                              // debugPrint(snapshot.data);
                               return Text(snapshot.data!,
                                   style: const TextStyle(fontSize: 18));
                             } else {
@@ -154,7 +158,7 @@ class _HomePageState extends State<HomePage> {
                               const SizedBox(width: 20),
                               Column(
                                 children: [
-                                  Text(riwayat[index].clockTime,
+                                  Text(riwayat[index].clockTimeOut,
                                       style: const TextStyle(fontSize: 18)),
                                   const Text("Pulang",
                                       style: TextStyle(fontSize: 14))

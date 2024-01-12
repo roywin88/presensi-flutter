@@ -18,6 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   late Future<String> _userName, _token;
+  String sessionCookie = "";
 
   @override
   void initState() {
@@ -59,17 +60,26 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       loginResponseModel =
           LoginResponseModel.fromJson(json.decode(response.body));
-      debugPrint('HASIL ${response.body}');
-      saveUser(loginResponseModel.data.token, loginResponseModel.data.userName);
+      // debugPrint('HASIL ${response.body}');
+      final cookies = response.headers['set-cookie']!;
+      if (cookies.isNotEmpty) {
+        sessionCookie = cookies;
+        // debugPrint("Session Cookie: $sessionCookie");
+      } else {
+        debugPrint("Tidak ada cookie dalam respons.");
+      }
+      saveUser(loginResponseModel.data.token, loginResponseModel.data.userName,
+          sessionCookie);
     }
   }
 
-  Future saveUser(token, userName) async {
+  Future saveUser(token, userName, sessionCookie) async {
     try {
-      debugPrint('LEWAT SINI $token | $userName');
+      // debugPrint('LEWAT SINI $token | $userName');
       final SharedPreferences pref = await _prefs;
       pref.setString("userName", userName);
       pref.setString("token", token);
+      pref.setString("sessionCookie", sessionCookie);
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => const HomePage()))
           .then((value) {

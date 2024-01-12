@@ -62,19 +62,19 @@ class _SimpanPageState extends State<SimpanPage> {
     String tgl = DateFormat('MM/dd/yyyy').format(now);
     String jam = DateFormat('h:mm a').format(now);
     Map<String, String> body = {
-      "wfh": "0",
-      "tgl": tgl,
-      "jam": jam,
-      "cGatewayIp": "192.168.30.238",
-      "cPublicIp": "",
-      "cLat": latitude.toString(),
-      "cLong": longitude.toString(),
-      "cAltitude": "26.0",
-      "cAccuracy": "112.168"
+      'wfh': '0',
+      'tgl': tgl,
+      'jam': jam,
+      'cGatewayIp': '192.168.30.238',
+      'cPublicIp': '',
+      'cLat': latitude.toString(),
+      'cLong': longitude.toString(),
+      'cAltitude': '26.0',
+      'cAccuracy': '112.168'
     };
 
     Map<String, String> headers = {'AX-API-KEY': await _token};
-    
+    debugPrint(body.toString());
     var response = await http.post(
         Uri.parse("http://103.169.21.106:8887/api/remoteClockIn"),
         body: body,
