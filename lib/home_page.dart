@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  late Future<String> _userName, _token, _sessionCookie;
+  late Future<String> _userName, _token, _cookie;
   HomeResponseModel? homeResponseModel;
   Datum? hariIni;
   List<Datum> riwayat = [];
@@ -32,14 +32,13 @@ class _HomePageState extends State<HomePage> {
       return prefs.getString("userName") ?? "";
     });
 
-    _sessionCookie = _prefs.then((SharedPreferences prefs) {
-      return prefs.getString("sessionCookie") ?? "";
+    _cookie = _prefs.then((SharedPreferences prefs) {
+      return prefs.getString("cookie") ?? "";
     });
   }
 
   Future getData() async {
     const String apiUrl = "http://103.169.21.106:8887/api/absensi/monthly";
-    // const String apiKey = "93F2778A-DD1B-440A-8825-76262D044A40";
     DateTime now = DateTime.now();
     int bulan = now.month;
     int tahun = now.year;
@@ -47,9 +46,8 @@ class _HomePageState extends State<HomePage> {
     final Map<String, String> headers = {
       "Content-Type": "application/json",
       "X-API-KEY": await _token,
-      'cookie': await _sessionCookie,
+      'cookie': await _cookie,
     };
-
     var response = await http.get(Uri.parse(urlWithParams), headers: headers);
     homeResponseModel = HomeResponseModel.fromJson(json.decode(response.body));
     riwayat.clear();

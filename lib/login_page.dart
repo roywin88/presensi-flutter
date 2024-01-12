@@ -17,8 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  late Future<String> _userName, _token;
-  String sessionCookie = "";
+  late Future<String> _userName, _token, _cookie;
 
   @override
   void initState() {
@@ -31,13 +30,18 @@ class _LoginPageState extends State<LoginPage> {
     _userName = _prefs.then((SharedPreferences prefs) {
       return prefs.getString("userName") ?? "";
     });
-    checkToken(_token, _userName);
+
+    _cookie = _prefs.then((SharedPreferences prefs) {
+      return prefs.getString("cookie") ?? "";
+    });
+    checkToken(_token, _userName, _cookie);
   }
 
-  checkToken(token, userName) async {
+  checkToken(token, userName, cookie) async {
     String tokenStr = await token;
     String nameStr = await userName;
-    if (tokenStr != "" && nameStr != "") {
+    String cookieStr = await cookie;
+    if (tokenStr != "" && nameStr != "" && cookieStr != "") {
       Future.delayed(const Duration(seconds: 1), () async {
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => const HomePage()))
@@ -61,25 +65,18 @@ class _LoginPageState extends State<LoginPage> {
       loginResponseModel =
           LoginResponseModel.fromJson(json.decode(response.body));
       // debugPrint('HASIL ${response.body}');
-      final cookies = response.headers['set-cookie']!;
-      if (cookies.isNotEmpty) {
-        sessionCookie = cookies;
-        // debugPrint("Session Cookie: $sessionCookie");
-      } else {
-        debugPrint("Tidak ada cookie dalam respons.");
-      }
+      final cookie = response.headers['set-cookie']!;
       saveUser(loginResponseModel.data.token, loginResponseModel.data.userName,
-          sessionCookie);
+          cookie);
     }
   }
 
-  Future saveUser(token, userName, sessionCookie) async {
+  Future saveUser(token, userName, cookie) async {
     try {
-      // debugPrint('LEWAT SINI $token | $userName');
       final SharedPreferences pref = await _prefs;
       pref.setString("userName", userName);
       pref.setString("token", token);
-      pref.setString("sessionCookie", sessionCookie);
+      pref.setString("cookie", cookie);
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => const HomePage()))
           .then((value) {

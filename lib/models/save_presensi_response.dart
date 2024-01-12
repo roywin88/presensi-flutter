@@ -15,6 +15,7 @@ class SavePresensiResponseModel {
   final String data;
   final String errMsg;
   final List<dynamic> errParam;
+  
 
   SavePresensiResponseModel({
     required this.error,
