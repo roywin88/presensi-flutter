@@ -86,10 +86,10 @@ class _HomePageState extends State<HomePage> {
                             if (snapshot.hasData) {
                               // debugPrint(snapshot.data);
                               return Text(snapshot.data!,
-                                  style: const TextStyle(fontSize: 18));
+                                  style: const TextStyle(fontSize: 22));
                             } else {
                               return const Text("-",
-                                  style: TextStyle(fontSize: 18));
+                                  style: TextStyle(fontSize: 22));
                             }
                           }
                         }),
@@ -98,68 +98,92 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Container(
                       width: 400,
-                      decoration: BoxDecoration(color: Colors.blue[800]),
+                      decoration: BoxDecoration(
+                        color: Colors.blue[800],
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
-                        child: Column(children: [
-                          Text(hariIni?.attDate ?? '-',
-                              style: const TextStyle(
-                                  color: Colors.white, fontSize: 16)),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Column(
-                                children: [
-                                  Text(hariIni?.clockTime ?? '-',
-                                      style: const TextStyle(
-                                          color: Colors.white, fontSize: 24)),
-                                  const Text("Masuk",
+                        child: Column(
+                          children: [
+                            Text(hariIni?.attDate ?? '-',
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 32)),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Column(
+                                  children: [
+                                    Text(hariIni?.clockTime ?? '-',
+                                        style: const TextStyle(
+                                            color: Colors.white, fontSize: 24)),
+                                    const Text(
+                                      "Masuk",
                                       style: TextStyle(
-                                          color: Colors.white, fontSize: 16))
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Text(hariIni?.clockTimeOut ?? '-',
-                                      style: const TextStyle(
-                                          color: Colors.white, fontSize: 24)),
-                                  const Text("Pulang",
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Text(hariIni?.clockTimeOut ?? '-',
+                                        style: const TextStyle(
+                                            color: Colors.white, fontSize: 24)),
+                                    const Text(
+                                      "Pulang",
                                       style: TextStyle(
-                                          color: Colors.white, fontSize: 16))
-                                ],
-                              )
-                            ],
-                          )
-                        ]),
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
                     const SizedBox(height: 20),
-                    const Text("Riwayat Presensi"),
+                    const Text(
+                      "Riwayat Presensi",
+                      style: TextStyle(fontSize: 20),
+                    ),
                     Expanded(
                       child: ListView.builder(
                         itemCount: riwayat.length,
                         itemBuilder: (context, index) => Card(
                           child: ListTile(
-                            leading: Text(riwayat[index].attDate),
+                            leading: Text(
+                              riwayat[index].attDate,
+                              style: const TextStyle(fontSize: 18),
+                            ),
                             title: Row(children: [
                               Column(
                                 children: [
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
                                   Text(riwayat[index].clockTime,
                                       style: const TextStyle(fontSize: 18)),
                                   const Text("Masuk",
-                                      style: TextStyle(fontSize: 14))
+                                      style: TextStyle(fontSize: 16))
                                 ],
                               ),
-                              const SizedBox(width: 20),
+                              const SizedBox(width: 40),
                               Column(
                                 children: [
                                   Text(riwayat[index].clockTimeOut,
                                       style: const TextStyle(fontSize: 18)),
                                   const Text("Pulang",
-                                      style: TextStyle(fontSize: 14))
+                                      style: TextStyle(fontSize: 16))
                                 ],
                               ),
                             ]),
