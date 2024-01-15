@@ -65,16 +65,15 @@ class _LoginPageState extends State<LoginPage> {
     if (allowedEmails.contains(email)) {
       LoginResponseModel? loginResponseModel;
       Map<String, String> body = {"userEmail": email, "password": password};
-      var response = await http.post(
-          Uri.parse(Variables.baseUrlLogin),
-          body: body);
+      var response =
+          await http.post(Uri.parse(Variables.baseUrlLogin), body: body);
       if (response.statusCode == 401) {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Email atau password salah")));
       } else {
         loginResponseModel =
             LoginResponseModel.fromJson(json.decode(response.body));
-        // debugPrint('HASIL ${response.body}');
         final cookie = response.headers['set-cookie']!;
         saveUser(loginResponseModel.data.token,
             loginResponseModel.data.userName, cookie);
@@ -91,6 +90,7 @@ class _LoginPageState extends State<LoginPage> {
       pref.setString("userName", userName);
       pref.setString("token", token);
       pref.setString("cookie", cookie);
+      // ignore: use_build_context_synchronously
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => const HomePage()))
           .then((value) {
@@ -98,6 +98,7 @@ class _LoginPageState extends State<LoginPage> {
       });
     } catch (err) {
       debugPrint('ERROR :${err.toString()}');
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(err.toString())));
     }

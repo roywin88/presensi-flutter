@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-// import 'package:flutter/foundation.dart';
-// import 'package:flutter/src/widgets/framework.dart';
 import 'package:location/location.dart';
 import 'package:presensi/core/constants/variables.dart';
 import 'package:presensi/models/save_presensi_response.dart';
@@ -143,7 +141,6 @@ class _SimpanPageState extends State<SimpanPage> {
       'cAltitude': '26.5',
       'cAccuracy': getData[3],
     };
-    // debugPrint('HASIL : ${body.toString()}');
     Map<String, String> headers = {
       "X-API-KEY": await _token,
       'cookie': await _cookie,
@@ -155,12 +152,15 @@ class _SimpanPageState extends State<SimpanPage> {
         SavePresensiResponseModel.fromJson(json.decode(response.body));
 
     if (!savePresensiResponseModel.error) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Sukses simpan Presensi')));
+          const SnackBar(content: Text('Sukses Simpan Presensi.')));
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
     } else {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Gagal simpan Presensi')));
+          .showSnackBar(const SnackBar(content: Text('Gagal Simpan Presensi')));
     }
   }
 
@@ -175,8 +175,6 @@ class _SimpanPageState extends State<SimpanPage> {
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.hasData) {
               final LocationData currentLocation = snapshot.data;
-              // debugPrint(
-              //     'KODING : ${currentLocation.latitude.toString()} | ${currentLocation.longitude.toString()}');
               return SafeArea(
                   child: Column(
                 children: [

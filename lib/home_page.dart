@@ -85,7 +85,6 @@ class _HomePageState extends State<HomePage> {
                             return const CircularProgressIndicator();
                           } else {
                             if (snapshot.hasData) {
-                              // debugPrint(snapshot.data);
                               return Text(snapshot.data!,
                                   style: const TextStyle(fontSize: 22));
                             } else {
@@ -201,9 +200,11 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (context) => const SimpanPage()))
-              .then((value) {
-            setState(() {});
-          });
+              .then(
+            (value) {
+              setState(() {});
+            },
+          );
         },
         child: const Icon(Icons.add),
       ),
