@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:presensi/core/constants/variables.dart';
 import 'package:presensi/models/home_response.dart';
 import 'package:presensi/simpan_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,7 +39,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future getData() async {
-    const String apiUrl = "http://103.169.21.106:8887/api/absensi/monthly";
+    const String apiUrl = Variables.baseUrlGet;
     DateTime now = DateTime.now();
     int bulan = now.month;
     int tahun = now.year;

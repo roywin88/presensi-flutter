@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:presensi/core/components/buttons.dart';
 import 'package:presensi/core/components/custom_text_field.dart';
+import 'package:presensi/core/constants/variables.dart';
 import 'package:presensi/home_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:presensi/models/login_response.dart';
@@ -65,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
       LoginResponseModel? loginResponseModel;
       Map<String, String> body = {"userEmail": email, "password": password};
       var response = await http.post(
-          Uri.parse('http://103.169.21.106:8887/api/auth/loginEss'),
+          Uri.parse(Variables.baseUrlLogin),
           body: body);
       if (response.statusCode == 401) {
         ScaffoldMessenger.of(context).showSnackBar(

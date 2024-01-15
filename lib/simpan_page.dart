@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 // import 'package:flutter/foundation.dart';
 // import 'package:flutter/src/widgets/framework.dart';
 import 'package:location/location.dart';
+import 'package:presensi/core/constants/variables.dart';
 import 'package:presensi/models/save_presensi_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
@@ -147,10 +148,8 @@ class _SimpanPageState extends State<SimpanPage> {
       "X-API-KEY": await _token,
       'cookie': await _cookie,
     };
-    var response = await http.post(
-        Uri.parse("http://103.169.21.106:8887/api/remoteClockIn"),
-        body: body,
-        headers: headers);
+    var response = await http.post(Uri.parse(Variables.baseUrlSimpan),
+        body: body, headers: headers);
 
     savePresensiResponseModel =
         SavePresensiResponseModel.fromJson(json.decode(response.body));
