@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:presensi/core/components/buttons.dart';
+import 'package:presensi/core/components/custom_text_field.dart';
 import 'package:presensi/home_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:presensi/models/login_response.dart';
@@ -18,6 +20,12 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   late Future<String> _userName, _token, _cookie;
+  List<String> allowedEmails = [
+    'roni.hutabarat@sta.co.id',
+    'dennis@sta.co.id',
+    'amir@sta.co.id',
+    'yohanes.gultom@sta.co.id',
+  ];
 
   @override
   void initState() {
@@ -53,21 +61,26 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future login(email, password) async {
-    LoginResponseModel? loginResponseModel;
-    Map<String, String> body = {"userEmail": email, "password": password};
-    var response = await http.post(
-        Uri.parse('http://103.169.21.106:8887/api/auth/loginEss'),
-        body: body);
-    if (response.statusCode == 401) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Email atau password salah")));
+    if (allowedEmails.contains(email)) {
+      LoginResponseModel? loginResponseModel;
+      Map<String, String> body = {"userEmail": email, "password": password};
+      var response = await http.post(
+          Uri.parse('http://103.169.21.106:8887/api/auth/loginEss'),
+          body: body);
+      if (response.statusCode == 401) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Email atau password salah")));
+      } else {
+        loginResponseModel =
+            LoginResponseModel.fromJson(json.decode(response.body));
+        // debugPrint('HASIL ${response.body}');
+        final cookie = response.headers['set-cookie']!;
+        saveUser(loginResponseModel.data.token,
+            loginResponseModel.data.userName, cookie);
+      }
     } else {
-      loginResponseModel =
-          LoginResponseModel.fromJson(json.decode(response.body));
-      // debugPrint('HASIL ${response.body}');
-      final cookie = response.headers['set-cookie']!;
-      saveUser(loginResponseModel.data.token, loginResponseModel.data.userName,
-          cookie);
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Alamat Email Anda Tidak Diizinkan")));
     }
   }
 
@@ -92,36 +105,59 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Center(child: Text("LOGIN")),
-              const SizedBox(height: 20),
-              const Text("Email"),
-              TextField(
-                controller: emailController,
+      body: ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: [
+          const SizedBox(height: 80.0),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 130.0),
+              child: Image.asset(
+                'assets/images/logo.png',
+                width: 100,
+                height: 100,
+              )),
+          const SizedBox(height: 24.0),
+          const Center(
+            child: Text(
+              "Galaxy Armed By Alexroywin",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: Colors.black,
               ),
-              const SizedBox(height: 20),
-              const Text("Password"),
-              TextField(
-                controller: passwordController,
-                obscureText: true,
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                  onPressed: () {
-                    login(emailController.text, passwordController.text);
-                  },
-                  child: const Text("Masuk"))
-            ],
+            ),
           ),
-        ),
-      )),
+          const SizedBox(height: 8.0),
+          const Center(
+            child: Text(
+              "Masuk untuk explorer",
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                color: Colors.grey,
+              ),
+            ),
+          ),
+          const SizedBox(height: 40.0),
+          CustomTextField(
+            controller: emailController,
+            label: "Email",
+          ),
+          const SizedBox(height: 12.0),
+          CustomTextField(
+            controller: passwordController,
+            label: 'Password',
+            obscureText: true,
+          ),
+          const SizedBox(height: 24.0),
+          Button.filled(
+            onPressed: () {
+              login(emailController.text, passwordController.text);
+            },
+            label: 'Masuk',
+          ),
+        ],
+      ),
     );
   }
 }
