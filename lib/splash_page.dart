@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:presensi/core/constants/colors.dart';
 import 'package:presensi/login_page.dart';
 
 class SplashPage extends StatelessWidget {
@@ -7,7 +8,7 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff537FE7),
+      backgroundColor: AppColors.bgcolor,
       body: Stack(
         children: [
           Image.asset('assets/images/Splash_BG1.png'),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:presensi/login_page.dart';
-import 'package:presensi/models/splash_page.dart';
+import 'package:presensi/splash_page.dart';
 
 void main() {
   runApp(const MyApp());

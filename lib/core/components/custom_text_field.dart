@@ -31,8 +31,8 @@ class CustomTextField extends StatelessWidget {
           Text(
             label,
             style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
             ),
           ),
           const SpaceHeight(12.0),
@@ -45,11 +45,11 @@ class CustomTextField extends StatelessWidget {
           decoration: InputDecoration(
             suffixIcon: suffixIcon,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16.0),
+              borderRadius: BorderRadius.circular(5.0),
               borderSide: const BorderSide(color: Colors.blueGrey),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16.0),
+              borderRadius: BorderRadius.circular(5.0),
               borderSide: const BorderSide(color: Colors.grey),
             ),
             hintText: label,

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:presensi/core/components/buttons.dart';
 import 'package:presensi/core/components/custom_text_field.dart';
+import 'package:presensi/core/constants/colors.dart';
 import 'package:presensi/core/constants/variables.dart';
 import 'package:presensi/home_page.dart';
 import 'package:http/http.dart' as http;
@@ -21,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   late Future<String> _userName, _token, _cookie;
+  bool checkbox1 = false;
   List<String> allowedEmails = [
     'roni.hutabarat@sta.co.id',
     'dennis@sta.co.id',
@@ -107,56 +109,134 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
+      backgroundColor: AppColors.bgcolor,
+      body: Stack(
         children: [
-          const SizedBox(height: 80.0),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 130.0),
-              child: Image.asset(
-                'assets/images/logo.png',
-                width: 100,
-                height: 100,
-              )),
-          const SizedBox(height: 24.0),
-          const Center(
-            child: Text(
-              "Galaxy Armed By Alexroywin",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: Colors.black,
-              ),
+          Column(
+            children: [
+              Image.asset('assets/images/login_BG1.png'),
+              const SizedBox(height: 197),
+              Image.asset('assets/images/login_BG2.png'),
+            ],
+          ),
+          SafeArea(
+            child: ListView(
+              children: [
+                Column(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 230),
+                          Text(
+                            'Welcome Back',
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.white,
+                            ),
+                          ),
+                          Text(
+                            'Login to your account',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xffD4D4D4),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Column(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          // height: MediaQuery.of(context).size.height * 0.53,
+                          margin: const EdgeInsets.only(
+                            top: 50,
+                            left: 24,
+                            right: 24,
+                          ),
+                          padding: const EdgeInsets.only(
+                            top: 50,
+                            left: 20,
+                            right: 20,
+                            bottom: 40,
+                          ),
+                          decoration: const BoxDecoration(
+                            color: AppColors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              CustomTextField(
+                                controller: emailController,
+                                label: "Email",
+                              ),
+                              const SizedBox(height: 15),
+                              CustomTextField(
+                                controller: passwordController,
+                                label: 'Password',
+                                obscureText: true,
+                              ),
+                              const SizedBox(height: 18),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Checkbox(
+                                    value: checkbox1,
+                                    onChanged: (value) {
+                                      setState(
+                                        () {
+                                          checkbox1 = value!;
+                                        },
+                                      );
+                                    },
+                                  ),
+                                  // const SizedBox(width: 10),
+                                  const Text(
+                                    'Remember me',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w300,
+                                      color: Color(0xff5D5D5D),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 20),
+                                  const Text(
+                                    'Forgot Password',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color(0xff5D5D5D),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 45.0),
+                              Button.filled(
+                                onPressed: () {
+                                  login(emailController.text,
+                                      passwordController.text);
+                                },
+                                label: 'Login',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ),
-          const SizedBox(height: 8.0),
-          const Center(
-            child: Text(
-              "Masuk untuk explorer",
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-                color: Colors.grey,
-              ),
-            ),
-          ),
-          const SizedBox(height: 40.0),
-          CustomTextField(
-            controller: emailController,
-            label: "Email",
-          ),
-          const SizedBox(height: 12.0),
-          CustomTextField(
-            controller: passwordController,
-            label: 'Password',
-            obscureText: true,
-          ),
-          const SizedBox(height: 24.0),
-          Button.filled(
-            onPressed: () {
-              login(emailController.text, passwordController.text);
-            },
-            label: 'Masuk',
           ),
         ],
       ),

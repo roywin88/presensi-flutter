@@ -14,7 +14,7 @@ class Button extends StatelessWidget {
     this.textColor = Colors.white,
     this.width = double.infinity,
     this.height = 50.0,
-    this.borderRadius = 16.0,
+    this.borderRadius = 5.0,
     this.icon,
     this.disabled = false,
     this.fontSize = 16.0,
