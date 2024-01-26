@@ -361,8 +361,10 @@ class _HomePageNewState extends State<HomePageNew> {
                                                   builder: (context) =>
                                                       const SimpanPage()))
                                               .then(
-                                                (value) {},
-                                              );
+                                            (value) {
+                                              setState(() {});
+                                            },
+                                          );
                                         },
                                         child: const Text(
                                           'ABSENSI IN/OUT',

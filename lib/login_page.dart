@@ -109,8 +109,9 @@ class _LoginPageState extends State<LoginPage> {
         );
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Alamat Email Anda Tidak Diizinkan")));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              "Alamat Email Anda Tidak Diizinkan Hubungi Administrator Anda")));
     }
   }
 
