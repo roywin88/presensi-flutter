@@ -144,133 +144,130 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: AppColors.bgcolor,
       body: Stack(
         children: [
-          Column(
-            children: [
-              Image.asset('assets/images/login_BG1.png'),
-              const SizedBox(height: 197),
-              Image.asset('assets/images/login_BG2.png'),
-            ],
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Image.asset('assets/images/login_BG1.png'),
+                const SizedBox(height: 197),
+                Image.asset('assets/images/login_BG2.png'),
+              ],
+            ),
           ),
-          SafeArea(
-            child: Expanded(
-              child: ListView(
+          ListView(
+            children: [
+              Column(
                 children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 230),
+                        Text(
+                          'Welcome Back',
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.white,
+                          ),
+                        ),
+                        Text(
+                          'Login to your account',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xffD4D4D4),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   Column(
                     children: [
-                      SizedBox(
+                      Container(
                         width: MediaQuery.of(context).size.width,
-                        child: const Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(height: 230),
-                            Text(
-                              'Welcome Back',
-                              style: TextStyle(
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.white,
-                              ),
-                            ),
-                            Text(
-                              'Login to your account',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xffD4D4D4),
-                              ),
-                            ),
-                          ],
+                        // height: MediaQuery.of(context).size.height * 0.53,
+                        margin: const EdgeInsets.only(
+                          top: 30,
+                          left: 24,
+                          right: 24,
                         ),
-                      ),
-                      Column(
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            // height: MediaQuery.of(context).size.height * 0.53,
-                            margin: const EdgeInsets.only(
-                              top: 30,
-                              left: 24,
-                              right: 24,
+                        padding: const EdgeInsets.only(
+                          top: 50,
+                          left: 20,
+                          right: 20,
+                          bottom: 40,
+                        ),
+                        decoration: const BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            CustomTextField(
+                              controller: emailController,
+                              label: "Email",
                             ),
-                            padding: const EdgeInsets.only(
-                              top: 50,
-                              left: 20,
-                              right: 20,
-                              bottom: 40,
+                            const SizedBox(height: 15),
+                            CustomTextField(
+                              controller: passwordController,
+                              label: 'Password',
+                              obscureText: true,
                             ),
-                            decoration: const BoxDecoration(
-                              color: AppColors.white,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20),
-                              ),
-                            ),
-                            child: Column(
+                            const SizedBox(height: 18),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                CustomTextField(
-                                  controller: emailController,
-                                  label: "Email",
-                                ),
-                                const SizedBox(height: 15),
-                                CustomTextField(
-                                  controller: passwordController,
-                                  label: 'Password',
-                                  obscureText: true,
-                                ),
-                                const SizedBox(height: 18),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Checkbox(
-                                      value: checkbox1,
-                                      onChanged: (value) {
-                                        setState(
-                                          () {
-                                            checkbox1 = value!;
-                                          },
-                                        );
+                                Checkbox(
+                                  value: checkbox1,
+                                  onChanged: (value) {
+                                    setState(
+                                      () {
+                                        checkbox1 = value!;
                                       },
-                                    ),
-                                    // const SizedBox(width: 10),
-                                    const Text(
-                                      'Remember me',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w300,
-                                        color: Color(0xff5D5D5D),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 20),
-                                    const Text(
-                                      'Forgot Password',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color(0xff5D5D5D),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 45.0),
-                                Button.filled(
-                                  onPressed: () {
-                                    login(emailController.text,
-                                        passwordController.text);
+                                    );
                                   },
-                                  label: 'Login',
+                                ),
+                                // const SizedBox(width: 10),
+                                const Text(
+                                  'Remember me',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300,
+                                    color: Color(0xff5D5D5D),
+                                  ),
+                                ),
+                                const SizedBox(width: 20),
+                                const Text(
+                                  'Forgot Password',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color(0xff5D5D5D),
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 45.0),
+                            Button.filled(
+                              onPressed: () {
+                                login(emailController.text,
+                                    passwordController.text);
+                              },
+                              label: 'Login',
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ],
               ),
-            ),
+            ],
           ),
         ],
       ),
